@@ -14,7 +14,7 @@ import com.gabrielgarcia.curso.repositories.UsuarioRepository;
 @Profile("test")
 public class PerfilTestConfig implements CommandLineRunner{
 	
-	@Autowired
+	@Autowired // Injeção de dependência
 	private UsuarioRepository usuarioRepository;
 
 	@Override
@@ -24,5 +24,6 @@ public class PerfilTestConfig implements CommandLineRunner{
 		Usuario u2 = new Usuario(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2));
+		
 	}
 }
