@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.gabrielgarcia.curso.entities.Pedido;
 import com.gabrielgarcia.curso.entities.Usuario;
+import com.gabrielgarcia.curso.entities.enums.PedidoStatus;
 import com.gabrielgarcia.curso.repositories.PedidoRepository;
 import com.gabrielgarcia.curso.repositories.UsuarioRepository;
 
@@ -31,9 +32,9 @@ public class PerfilTestConfig implements CommandLineRunner{
 		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2));
 		
-		Pedido p1 = new Pedido(null, Instant.parse("2022-01-20T19:53:07Z"), u1);
-		Pedido p2 = new Pedido(null, Instant.parse("2023-12-20T19:53:07Z"), u1);
-		Pedido p3 = new Pedido(null, Instant.parse("2020-08-10T19:53:07Z"), u2);
+		Pedido p1 = new Pedido(null, Instant.parse("2022-01-20T19:53:07Z"), PedidoStatus.AGUARDANDO_PAGAMENTO, u1);
+		Pedido p2 = new Pedido(null, Instant.parse("2023-12-20T19:53:07Z"), PedidoStatus.CANCELADO, u1);
+		Pedido p3 = new Pedido(null, Instant.parse("2020-08-10T19:53:07Z"), PedidoStatus.PAGO, u2);
 		
 		pedidoRepository.saveAll(Arrays.asList(p1, p2, p3));
 	}

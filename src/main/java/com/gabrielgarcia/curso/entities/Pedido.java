@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gabrielgarcia.curso.entities.enums.PedidoStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,25 +17,29 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_pedido")
-public class Pedido implements Serializable{
+public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT") // Formata o instant no banco de dados
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT") // Formata o instant no banco																						// de dados
 	private Instant momento;
-	
+
+	private Integer pedidoStatus;
+
 	@ManyToOne // Muitos pedidos para um cliente
 	@JoinColumn(name = "ClienteId")
 	private Usuario cliente;
-	
-	public Pedido(){}
 
-	public Pedido(Long id, Instant momento, Usuario cliente) {
+	public Pedido() {
+	}
+
+	public Pedido(Long id, Instant momento, PedidoStatus pedidoStatus, Usuario cliente) {
 		this.id = id;
 		this.momento = momento;
+		setPedidoStatus(pedidoStatus); // Recebendo em PedidoStatus e passando para int
 		this.cliente = cliente;
 	}
 
@@ -52,6 +57,16 @@ public class Pedido implements Serializable{
 
 	public void setMomento(Instant momento) {
 		this.momento = momento;
+	}
+
+	public PedidoStatus getPedidoStatus() {
+		return PedidoStatus.ValorDe(pedidoStatus); // Pegando o número inteiro e passando para PedidoStatus
+	}
+
+	public void setPedidoStatus(PedidoStatus pedidoStatus) {
+		if(pedidoStatus != null) {
+		this.pedidoStatus = pedidoStatus.getCodigo(); // Passando para int
+		} 
 	}
 
 	public Usuario getCliente() {
@@ -83,6 +98,5 @@ public class Pedido implements Serializable{
 	public String toString() {
 		return "Pedido [id=" + id + ", momento=" + momento + ", cliente=" + cliente + "]";
 	}
-	
-	
+
 }
