@@ -1,5 +1,6 @@
 package com.gabrielgarcia.curso.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.gabrielgarcia.curso.entities.Pedido;
 import com.gabrielgarcia.curso.entities.Usuario;
+import com.gabrielgarcia.curso.repositories.PedidoRepository;
 import com.gabrielgarcia.curso.repositories.UsuarioRepository;
 
 @Configuration
@@ -16,6 +19,9 @@ public class PerfilTestConfig implements CommandLineRunner{
 	
 	@Autowired // Injeção de dependência
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -25,5 +31,10 @@ public class PerfilTestConfig implements CommandLineRunner{
 		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2));
 		
+		Pedido p1 = new Pedido(null, Instant.parse("2022-01-20T19:53:07Z"), u1);
+		Pedido p2 = new Pedido(null, Instant.parse("2023-12-20T19:53:07Z"), u1);
+		Pedido p3 = new Pedido(null, Instant.parse("2020-08-10T19:53:07Z"), u2);
+		
+		pedidoRepository.saveAll(Arrays.asList(p1, p2, p3));
 	}
 }
