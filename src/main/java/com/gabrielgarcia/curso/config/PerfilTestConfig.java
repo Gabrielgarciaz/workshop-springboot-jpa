@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.gabrielgarcia.curso.entities.Categoria;
 import com.gabrielgarcia.curso.entities.Pedido;
+import com.gabrielgarcia.curso.entities.Produto;
 import com.gabrielgarcia.curso.entities.Usuario;
 import com.gabrielgarcia.curso.entities.enums.PedidoStatus;
 import com.gabrielgarcia.curso.repositories.CategoriaRepository;
 import com.gabrielgarcia.curso.repositories.PedidoRepository;
+import com.gabrielgarcia.curso.repositories.ProdutoRepository;
 import com.gabrielgarcia.curso.repositories.UsuarioRepository;
 
 @Configuration
@@ -28,6 +30,9 @@ public class PerfilTestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -49,5 +54,12 @@ public class PerfilTestConfig implements CommandLineRunner{
 		Categoria c3 = new Categoria(null, "Livro");
 		
 		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Produto pr1 = new Produto(null, "Iphone Xr", "60gb", 3.000, "");
+		Produto pr2 = new Produto(null, "Dell G15", "RTX3050", 6.000, "");
+		Produto pr3 = new Produto(null, "Código Limp", "Livro para Desenvolvedores", 300.0, "");
+		
+		produtoRepository.saveAll(Arrays.asList(pr1, pr2, pr3));
+		
 	}
 }
