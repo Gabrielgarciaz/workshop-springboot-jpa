@@ -52,14 +52,28 @@ public class PerfilTestConfig implements CommandLineRunner{
 		Categoria c1 = new Categoria(null, "Notebook");
 		Categoria c2 = new Categoria(null, "Celular");
 		Categoria c3 = new Categoria(null, "Livro");
+		Categoria c4 = new Categoria(null, "Eletronicos");
 		
-		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3));
+		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3, c4));
 		
-		Produto pr1 = new Produto(null, "Iphone Xr", "60gb", 3.000, "");
-		Produto pr2 = new Produto(null, "Dell G15", "RTX3050", 6.000, "");
-		Produto pr3 = new Produto(null, "Código Limp", "Livro para Desenvolvedores", 300.0, "");
+		Produto pr1 = new Produto(null, "Iphone Xr", "60gb", 3000.0, "");
+		Produto pr2 = new Produto(null, "Dell G15", "RTX3050", 6000.0, "");
+		Produto pr3 = new Produto(null, "Código Limpo", "Livro para Desenvolvedores", 300.0, "");
+		Produto pr4 = new Produto(null, "Tablet", "Tela grande", 1000.0, "");
 		
-		produtoRepository.saveAll(Arrays.asList(pr1, pr2, pr3));
+		produtoRepository.saveAll(Arrays.asList(pr1, pr2, pr3, pr4));
+		
+		
+		pr1.getCategorias().add(c2); // Associação entre os objetos
+		pr1.getCategorias().add(c4);
+		pr2.getCategorias().add(c1);
+		pr2.getCategorias().add(c4);
+		pr3.getCategorias().add(c3);
+		pr4.getCategorias().add(c4);
+		
+		produtoRepository.saveAll(Arrays.asList(pr1, pr2, pr3, pr4));
+		
+		
 		
 	}
 }
