@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.gabrielgarcia.curso.entities.Categoria;
 import com.gabrielgarcia.curso.entities.Pedido;
 import com.gabrielgarcia.curso.entities.Usuario;
 import com.gabrielgarcia.curso.entities.enums.PedidoStatus;
+import com.gabrielgarcia.curso.repositories.CategoriaRepository;
 import com.gabrielgarcia.curso.repositories.PedidoRepository;
 import com.gabrielgarcia.curso.repositories.UsuarioRepository;
 
@@ -23,6 +25,9 @@ public class PerfilTestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -37,5 +42,12 @@ public class PerfilTestConfig implements CommandLineRunner{
 		Pedido p3 = new Pedido(null, Instant.parse("2020-08-10T19:53:07Z"), PedidoStatus.PAGO, u2);
 		
 		pedidoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		
+		Categoria c1 = new Categoria(null, "Notebook");
+		Categoria c2 = new Categoria(null, "Celular");
+		Categoria c3 = new Categoria(null, "Livro");
+		
+		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}
 }
