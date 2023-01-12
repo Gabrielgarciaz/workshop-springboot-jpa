@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.gabrielgarcia.curso.entities.Categoria;
 import com.gabrielgarcia.curso.entities.ItemDePedido;
+import com.gabrielgarcia.curso.entities.Pagamento;
 import com.gabrielgarcia.curso.entities.Pedido;
 import com.gabrielgarcia.curso.entities.Produto;
 import com.gabrielgarcia.curso.entities.Usuario;
@@ -38,6 +39,7 @@ public class PerfilTestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private ItemDePedidoRepository itemDePedidoRepository;
+	
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -84,5 +86,12 @@ public class PerfilTestConfig implements CommandLineRunner{
 		ItemDePedido ip3 = new ItemDePedido(p2, pr3, 3, pr3.getPreco());
 		
 		itemDePedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		Pagamento pag1 = new Pagamento(null, Instant.parse("2022-04-20T19:53:07Z"), p1);
+		p1.setPagamento(pag1);
+		
+		pedidoRepository.save(p1);
+		
+		
 	}
 }
