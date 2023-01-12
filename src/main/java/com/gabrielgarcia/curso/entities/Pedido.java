@@ -53,7 +53,15 @@ public class Pedido implements Serializable {
 		setPedidoStatus(pedidoStatus); // Recebendo em PedidoStatus e passando para int
 		this.cliente = cliente;
 	}
-
+	
+	public Double getTotal() {
+		
+		double total = 0.0;
+		for(ItemDePedido x : items) {
+			 total = total +  x.getSubTotal(); 
+		}
+		return total;
+	}
 	public Long getId() {
 		return id;
 	}
