@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,7 +36,12 @@ public class Produto implements Serializable {
 															// mesma categoria mais de uma vez
 	// Categoria é instanciada para garantir que a coleção não comece valendo nula,
 	// comece valendo vazia porém instancia
-
+	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemDePedido> itemDePedido =  new HashSet<>();
+	
+	
+	
 	public Produto() {
 	}
 
@@ -89,7 +97,16 @@ public class Produto implements Serializable {
 	public Set<Categoria> getCategorias() {
 		return categorias;
 	}
-
+	
+	@JsonIgnore // Vai ignorar os Pedidos quando eu chamar os Produtos
+	public Set<Pedido> getPedidos(){
+		Set<Pedido> set = new HashSet<>();
+		for (ItemDePedido x : itemDePedido) {
+			set.add(x.getPedido());
+		}
+		return set;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
