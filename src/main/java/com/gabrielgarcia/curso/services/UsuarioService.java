@@ -24,4 +24,21 @@ public class UsuarioService {
 		return obj.get();
 	}
 	
+	public Usuario inserir(Usuario usuario) {
+		return usuarioRepository.save(usuario); // Save por padrão retorna o objeto salvo
+	}
+	public void deletar(Long id) {
+		usuarioRepository.deleteById(id);
+	}
+	public Usuario atualizar(Long id, Usuario usuario) {
+		Usuario entity = usuarioRepository.getReferenceById(id);  // Não vai no db, apenas monitora o objeto
+		atualizarDados(entity, usuario);
+		return usuarioRepository.save(entity);
+	}
+
+	private void atualizarDados(Usuario entity, Usuario usuario) {
+		entity.setNome(usuario.getNome());
+		entity.setEmail(usuario.getEmail());
+		entity.setTelefone(usuario.getTelefone());
+	}
 }
