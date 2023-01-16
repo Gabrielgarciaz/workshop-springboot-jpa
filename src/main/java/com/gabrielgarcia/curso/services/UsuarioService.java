@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.gabrielgarcia.curso.entities.Usuario;
 import com.gabrielgarcia.curso.repositories.UsuarioRepository;
+import com.gabrielgarcia.curso.services.exceptions.DataBaseException;
 import com.gabrielgarcia.curso.services.exceptions.ResourceNaoEncontradoException;
 
 @Service
@@ -29,7 +32,13 @@ public class UsuarioService {
 		return usuarioRepository.save(usuario); // Save por padrão retorna o objeto salvo
 	}
 	public void deletar(Long id) {
+		try {
 		usuarioRepository.deleteById(id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNaoEncontradoException(id);
+		} catch(DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
 	}
 	public Usuario atualizar(Long id, Usuario usuario) {
 		Usuario entity = usuarioRepository.getReferenceById(id);  // Não vai no db, apenas monitora o objeto
