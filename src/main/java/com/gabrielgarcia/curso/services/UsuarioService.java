@@ -13,6 +13,8 @@ import com.gabrielgarcia.curso.repositories.UsuarioRepository;
 import com.gabrielgarcia.curso.services.exceptions.DataBaseException;
 import com.gabrielgarcia.curso.services.exceptions.ResourceNaoEncontradoException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UsuarioService {
 	
@@ -41,9 +43,13 @@ public class UsuarioService {
 		}
 	}
 	public Usuario atualizar(Long id, Usuario usuario) {
-		Usuario entity = usuarioRepository.getReferenceById(id);  // Não vai no db, apenas monitora o objeto
-		atualizarDados(entity, usuario);
-		return usuarioRepository.save(entity);
+		try {
+			Usuario entity = usuarioRepository.getReferenceById(id);  // Não vai no db, apenas monitora o objeto
+			atualizarDados(entity, usuario);
+			return usuarioRepository.save(entity);
+		}catch(EntityNotFoundException e){
+			throw new ResourceNaoEncontradoException(id);
+		}
 	}
 
 	private void atualizarDados(Usuario entity, Usuario usuario) {
